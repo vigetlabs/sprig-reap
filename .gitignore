@@ -1,0 +1,6 @@
+.bundle/
+.rspec
+.ruby-version
+spec/db/*
+spec/db/!.
+.DS_Store
