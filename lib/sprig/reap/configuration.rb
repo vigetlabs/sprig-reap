@@ -2,13 +2,13 @@ module Sprig::Reap
   class Configuration
     VALID_CLASSES = ActiveRecord::Base.subclasses
 
-    def env
-      @env ||= Rails.env
+    def target_env
+      @target_env ||= Rails.env
     end
 
-    def env=(given_env)
-      parse_valid_env_from given_env do |environment|
-        @env = environment
+    def target_env=(given_env)
+      parse_valid_env_from given_env do |target_environment|
+        @target_env = target_environment
       end
     end
 
@@ -26,13 +26,13 @@ module Sprig::Reap
 
     def parse_valid_env_from(input)
       return if input.nil?
-      environment = input.strip.downcase
-      create_seeds_folder(environment)
-      yield environment
+      target_environment = input.strip.downcase
+      create_seeds_folder(target_environment)
+      yield target_environment
     end
 
-    def create_seeds_folder(env)
-      folder = Rails.root.join('db', 'seeds', env)
+    def create_seeds_folder(target_env)
+      folder = Rails.root.join('db', 'seeds', target_env)
       FileUtils.mkdir_p(folder) unless File.directory? folder
     end
 

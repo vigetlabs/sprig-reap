@@ -35,15 +35,15 @@ after the STI base model.  STI sub-type records will all be written to that file
 
 ### Additional Configuration
 
-Don't like the defaults when reaping Sprig::Reap records? You may specify the environment (`db/seeds`
-target folder) or models (`ActiveRecord::Base.subclasses`-only) you want seed files for.
+Don't like the defaults when reaping Sprig::Reap records? You may specify the target environment
+(`db/seeds` target folder) or models (`ActiveRecord::Base.subclasses`-only) you want seed files for.
 
 ```
 # Rake Task
-rake db:seed:reap ENV=integration MODELS=User,Post
+rake db:seed:reap TARGET_ENV=integration MODELS=User,Post
 
 # Rails Console
-Sprig::Reap.reap(env: 'integration', models: [User, Post])
+Sprig::Reap.reap(target_env: 'integration', models: [User, Post])
 ```
 
 ### Adding to Existing Seed Files (`.yaml` only)

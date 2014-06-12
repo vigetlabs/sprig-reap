@@ -21,17 +21,17 @@ describe Sprig::Reap do
     end
 
     context "when passed an environment in the options hash" do
-      context "in :env" do
+      context "in :target_env" do
         it "sets the environment" do
-          subject.reap(:env => 'dreamland')
-          subject.env.should == 'dreamland'
+          subject.reap(:target_env => 'dreamland')
+          subject.target_env.should == 'dreamland'
         end
       end
 
-      context "in 'ENV'" do
+      context "in 'TARGET_ENV'" do
         it "sets the environment" do
           subject.reap('ENV' => ' Dreamland')
-          subject.env.should == 'dreamland'
+          subject.target_env.should == 'dreamland'
         end
       end
     end

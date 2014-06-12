@@ -7,7 +7,7 @@ describe Sprig::Reap::SeedFile do
 
   before do
     stub_rails_root
-    Sprig::Reap.stub(:env).and_return('dreamland')
+    Sprig::Reap.stub(:target_env).and_return('dreamland')
   end
 
   describe "#initialize" do

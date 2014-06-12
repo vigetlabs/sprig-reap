@@ -11,7 +11,7 @@ module Sprig::Reap
     end
 
     def path
-      Rails.root.join('db', 'seeds', Sprig::Reap.env, "#{model.to_s.tableize.gsub('/', '_')}.yml")
+      Rails.root.join('db', 'seeds', Sprig::Reap.target_env, "#{model.to_s.tableize.gsub('/', '_')}.yml")
     end
 
     def exists?

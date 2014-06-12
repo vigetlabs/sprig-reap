@@ -7,28 +7,28 @@ describe Sprig::Reap::Configuration do
     stub_rails_root
   end
 
-  describe "#env" do
+  describe "#target_env" do
     context "from a fresh configuration" do
-      its(:env) { should == Rails.env }
+      its(:target_env) { should == Rails.env }
     end
   end
 
-  describe "#env=" do
+  describe "#target_env=" do
     context "when given nil" do
-      it "does not change the env" do
-        subject.env = nil
+      it "does not change the target_env" do
+        subject.target_env = nil
 
-        subject.env.should_not == nil
+        subject.target_env.should_not == nil
       end
     end
 
     context "given a non-nil value" do
       let(:input) { ' ShaBOOSH' }
 
-      it "formats the given value and then sets the environment" do
-        subject.env = input
+      it "formats the given value and then sets the target environment" do
+        subject.target_env = input
 
-        subject.env.should == 'shaboosh'
+        subject.target_env.should == 'shaboosh'
       end
 
       context "and the corresponding seeds folder does not yet exist" do
@@ -37,7 +37,7 @@ describe Sprig::Reap::Configuration do
         end
 
         it "creates the seeds folder" do
-          subject.env = input
+          subject.target_env = input
 
           File.directory?('./spec/fixtures/db/seeds/shaboosh').should == true
         end
