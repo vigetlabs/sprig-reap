@@ -2,11 +2,20 @@
 
 [![Code Climate](https://codeclimate.com/github/vigetlabs/sprig-reap.png)](https://codeclimate.com/github/vigetlabs/sprig-reap) [![Build Status](https://travis-ci.org/vigetlabs/sprig-reap.png?branch=master)](https://travis-ci.org/vigetlabs/sprig-reap) [![Gem Version](https://badge.fury.io/rb/sprig-reap.png)](http://badge.fury.io/rb/sprig-reap)
 
-Automatic capture and output of your application's data state to Sprig-formatted seed files.
+Don't want to write Sprig seed files from scratch?  No problem!  Sprig::Reap can create them for
+you.  Sprig::Reap enables automatic capture and output of your application's data state to
+Sprig-formatted seed files.
 
-## Populate Seed Files from Database
+## Installation
+```
+# Command Line
+gem install sprig-reap
 
-Don't want to write Sprig seed files from scratch?  Well, Sprig::Reap can create them for you!
+# Gemfile
+gem 'sprig-reap'
+```
+
+## Usage
 
 Via a rake task:
 ```
