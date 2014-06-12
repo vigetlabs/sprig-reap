@@ -36,14 +36,16 @@ after the STI base model.  STI sub-type records will all be written to that file
 ### Additional Configuration
 
 Don't like the defaults when reaping Sprig::Reap records? You may specify the target environment
-(`db/seeds` target folder) or models (`ActiveRecord::Base.subclasses`-only) you want seed files for.
+(`db/seeds` target folder), models (`ActiveRecord::Base.subclasses`-only) you want seed files for,
+or any ignored attributes you don't want to show up in any of the seed files.
 
 ```
 # Rake Task
-rake db:seed:reap TARGET_ENV=integration MODELS=User,Post
+rake db:seed:reap TARGET_ENV=integration MODELS=User,Post IGNORED_ATTRS=created_at,updated_at
 
 # Rails Console
-Sprig::Reap.reap(target_env: 'integration', models: [User, Post])
+Sprig::Reap.reap(target_env: 'integration', models: [User, Post], ignored_attrs: [:created_at,
+:updated_at])
 ```
 
 ### Adding to Existing Seed Files (`.yaml` only)

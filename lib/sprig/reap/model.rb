@@ -22,7 +22,7 @@ module Sprig::Reap
     end
 
     def attributes
-      klass.column_names
+      klass.column_names - Sprig::Reap.ignored_attrs
     end
 
     def dependencies

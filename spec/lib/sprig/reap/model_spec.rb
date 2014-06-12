@@ -39,9 +39,25 @@ describe Sprig::Reap::Model do
   end
 
   describe "#attributes" do
+    let(:attrs) { %w(boom shaka laka) }
+
     subject { described_class.new(User) }
 
-    its(:attributes) { should == User.column_names }
+    before do
+      User.stub(:column_names).and_return(attrs)
+    end
+
+    context "when there are no ignored attributes" do
+      its(:attributes) { should == attrs }
+    end
+
+    context "when there are ignored attributes" do
+      before do
+        Sprig::Reap.stub(:ignored_attrs).and_return(['laka'])
+      end
+
+      its(:attributes) { should == ['boom', 'shaka'] }
+    end
   end
 
   describe "#dependencies" do

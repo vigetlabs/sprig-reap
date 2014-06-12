@@ -96,4 +96,30 @@ describe Sprig::Reap::Configuration do
       end
     end
   end
+
+  describe "#ignored_attrs" do
+    context "from a fresh configuration" do
+      its(:ignored_attrs) { should == [] }
+    end
+  end
+
+  describe "#ignored_attrs=" do
+    context "when given nil" do
+      before { subject.classes = nil }
+
+      its(:ignored_attrs) { should_not == nil }
+    end
+
+    context "when given an array of ignored_attrs" do
+      before { subject.ignored_attrs = [:shaka, ' laka '] }
+
+      its(:ignored_attrs) { should == ['shaka', 'laka'] }
+    end
+
+    context "when given a string" do
+      before { subject.ignored_attrs = ' shaka, laka' }
+
+      its(:ignored_attrs) { should == ['shaka', 'laka'] }
+    end
+  end
 end

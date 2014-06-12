@@ -22,6 +22,16 @@ module Sprig::Reap
       end
     end
 
+    def ignored_attrs
+      @ignored_attrs ||= []
+    end
+
+    def ignored_attrs=(input)
+      parse_ignored_attrs_from input do |attrs|
+        @ignored_attrs = attrs
+      end
+    end
+
     private
 
     def parse_valid_env_from(input)
@@ -56,6 +66,18 @@ module Sprig::Reap
           raise ArgumentError, "Cannot create a seed file for #{klass} because it is not a subclass of ActiveRecord::Base."
         end
       end
+    end
+
+    def parse_ignored_attrs_from(input)
+      return if input.nil?
+
+      attrs = if input.is_a? String
+        input.split(',').map(&:strip)
+      else
+        input.map(&:to_s).map(&:strip)
+      end
+
+      yield attrs
     end
   end
 end

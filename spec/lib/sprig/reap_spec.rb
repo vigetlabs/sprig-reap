@@ -51,5 +51,21 @@ describe Sprig::Reap do
         end
       end
     end
+
+    context "when passed a list of ignored attributes in the options hash" do
+      context "in :ignored_attrs" do
+        it "sets ignored attributes" do
+          subject.reap(:ignored_attrs => [:willy, :nilly])
+          subject.ignored_attrs.should == ['willy', 'nilly']
+        end
+      end
+
+      context "in IGNORED_ATTRS" do
+        it "sets ignored attributes" do
+          subject.reap('IGNORED_ATTRS' => ' willy, nilly')
+          subject.ignored_attrs.should == ['willy', 'nilly']
+        end
+      end
+    end
   end
 end
