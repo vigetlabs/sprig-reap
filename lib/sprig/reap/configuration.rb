@@ -27,9 +27,7 @@ module Sprig::Reap
     end
 
     def ignored_attrs=(input)
-      parse_ignored_attrs_from input do |attrs|
-        @ignored_attrs = attrs
-      end
+      @ignored_attrs = parse_ignored_attrs_from(input)
     end
 
     private
@@ -71,13 +69,11 @@ module Sprig::Reap
     def parse_ignored_attrs_from(input)
       return if input.nil?
 
-      attrs = if input.is_a? String
+      if input.is_a? String
         input.split(',').map(&:strip)
       else
         input.map(&:to_s).map(&:strip)
       end
-
-      yield attrs
     end
   end
 end

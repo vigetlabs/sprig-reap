@@ -107,7 +107,7 @@ describe Sprig::Reap::Configuration do
     context "when given nil" do
       before { subject.classes = nil }
 
-      its(:ignored_attrs) { should_not == nil }
+      its(:ignored_attrs) { should == [] }
     end
 
     context "when given an array of ignored_attrs" do
