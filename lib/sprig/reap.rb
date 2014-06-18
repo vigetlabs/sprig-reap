@@ -1,6 +1,7 @@
 require "sprig/reap/version"
 
 module Sprig::Reap
+  autoload :Sprig,         'sprig'
   autoload :TsortableHash, 'sprig/reap/tsortable_hash'
   autoload :Railtie,       'sprig/reap/railtie'
   autoload :Configuration, 'sprig/reap/configuration'
