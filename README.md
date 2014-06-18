@@ -23,7 +23,7 @@ rake db:seed:reap
 ```
 Or from the Rails console:
 ```
-Sprig::Reap.reap
+Sprig.reap
 ```
 
 By default, Sprig::Reap will create seed files (currently in `.yaml` only) for every model in your Rails
@@ -44,7 +44,7 @@ or any ignored attributes you don't want to show up in any of the seed files.
 rake db:seed:reap TARGET_ENV=integration MODELS=User,Post IGNORED_ATTRS=created_at,updated_at
 
 # Rails Console
-Sprig::Reap.reap(target_env: 'integration', models: [User, Post], ignored_attrs: [:created_at,
+Sprig.reap(target_env: 'integration', models: [User, Post], ignored_attrs: [:created_at,
 :updated_at])
 ```
 
