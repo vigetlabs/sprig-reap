@@ -22,8 +22,30 @@ describe Sprig::Reap::Configuration do
       end
     end
 
-    context "given a non-nil value" do
+    context "given a non-nil string value" do
       let(:input) { ' ShaBOOSH' }
+
+      it "formats the given value and then sets the target environment" do
+        subject.target_env = input
+
+        subject.target_env.should == 'shaboosh'
+      end
+
+      context "and the corresponding seeds folder does not yet exist" do
+        after do
+          FileUtils.remove_dir('./spec/fixtures/db/seeds/shaboosh')
+        end
+
+        it "creates the seeds folder" do
+          subject.target_env = input
+
+          File.directory?('./spec/fixtures/db/seeds/shaboosh').should == true
+        end
+      end
+    end
+
+    context "given a non-nil symbol value" do
+      let(:input) { :shaboosh }
 
       it "formats the given value and then sets the target environment" do
         subject.target_env = input

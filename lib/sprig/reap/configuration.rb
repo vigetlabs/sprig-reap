@@ -34,7 +34,7 @@ module Sprig::Reap
 
     def parse_valid_env_from(input)
       return if input.nil?
-      target_environment = input.strip.downcase
+      target_environment = input.to_s.strip.downcase
       create_seeds_folder(target_environment)
       yield target_environment
     end
