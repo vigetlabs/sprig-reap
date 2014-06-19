@@ -86,6 +86,26 @@ describe Sprig::Reap::SeedFile do
       end
     end
 
+    context "when the seed file exists but is empty inside" do
+      before do
+        File.open(subject.path, 'w') { |file| file.write('') }
+      end
+
+      it "grabs the yaml for the given model without a namespace" do
+        model.should_receive(:to_yaml).with(:namespace => nil)
+
+        subject.write
+      end
+
+      it "populates the file" do
+        starting_size = File.size(subject.path)
+
+        subject.write
+
+        File.size?(subject.path).should > starting_size
+      end
+    end
+
     context "when the seed file does not yet exist" do
       it "does not pass any existing sprig ids to the given model" do
         model.should_not_receive(:existing_sprig_ids=)

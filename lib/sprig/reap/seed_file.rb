@@ -44,6 +44,8 @@ module Sprig::Reap
     end
 
     def existing_sprig_ids(yaml)
+      return if yaml.empty?
+
       YAML.load(yaml).fetch(DEFAULT_NAMESPACE).to_a.map do |record|
         record.fetch('sprig_id')
       end
