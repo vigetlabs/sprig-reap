@@ -30,7 +30,7 @@ describe Sprig::Reap do
 
       context "in 'TARGET_ENV'" do
         it "sets the environment" do
-          subject.reap('ENV' => ' Dreamland')
+          subject.reap('TARGET_ENV' => ' Dreamland')
           subject.target_env.should == 'dreamland'
         end
       end
@@ -66,6 +66,14 @@ describe Sprig::Reap do
           subject.ignored_attrs.should == ['willy', 'nilly']
         end
       end
+    end
+  end
+
+  describe ".clear_config" do
+    it "sets the configuration to nil" do
+      subject.clear_config
+
+      subject.class_variable_get(:@@configuration).should == nil
     end
   end
 end

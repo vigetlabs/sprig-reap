@@ -22,6 +22,10 @@ module Sprig::Reap
       Model.all.each { |model| SeedFile.new(model).write }
     end
 
+    def clear_config
+      @@configuration = nil
+    end
+
     private
 
     cattr_reader :configuration
