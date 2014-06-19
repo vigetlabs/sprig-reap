@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Sprig::Reap do
+  before do
+    stub_rails_application
+  end
+
   describe ".reap" do
     let(:seed_file) { double('Sprig::Reap::SeedFile', :write => 'such seeds') }
 

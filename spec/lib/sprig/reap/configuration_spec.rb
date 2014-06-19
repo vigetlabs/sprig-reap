@@ -5,6 +5,7 @@ describe Sprig::Reap::Configuration do
 
   before do
     stub_rails_root
+    stub_rails_application
   end
 
   describe "#target_env" do

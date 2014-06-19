@@ -1,6 +1,5 @@
 module Sprig::Reap
   class Configuration
-    VALID_CLASSES = ActiveRecord::Base.subclasses
 
     def target_env
       @target_env ||= Rails.env
@@ -13,7 +12,8 @@ module Sprig::Reap
     end
 
     def classes
-      @classes ||= VALID_CLASSES
+      @classes ||= valid_classes
+
     end
 
     def classes=(given_classes)
@@ -31,6 +31,13 @@ module Sprig::Reap
     end
 
     private
+
+    def valid_classes
+      @valid_classes ||= begin
+        Rails.application.eager_load!
+        ActiveRecord::Base.subclasses
+      end
+    end
 
     def parse_valid_env_from(input)
       return if input.nil?
@@ -60,7 +67,7 @@ module Sprig::Reap
 
     def validate_classes(classes)
       classes.each do |klass|
-        unless VALID_CLASSES.include? klass
+        unless valid_classes.include? klass
           raise ArgumentError, "Cannot create a seed file for #{klass} because it is not a subclass of ActiveRecord::Base."
         end
       end
