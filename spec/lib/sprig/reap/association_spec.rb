@@ -1,21 +1,24 @@
 require 'spec_helper'
 
 describe Sprig::Reap::Association do
-  let(:polymorphic) { { :polymorphic => true } }
-  let(:named_assoc) { { :class_name => 'User' } }
-  let(:association) { double('ActiveRecord::Reflection::AssociationReflection', :name => :user, :options => Hash.new) }
+  let!(:user)    { User.create(:first_name => 'Bo', :last_name => 'Janglez') }
+  let!(:post)    { Post.create(:poster => user) }
+  let!(:comment) { Comment.create(:post => post) }
+  let!(:vote)    { Vote.create(:votable => post) }
 
-  subject { described_class.new(association) }
+  let(:standard_association)    { Comment.reflect_on_all_associations(:belongs_to).first }
+  let(:class_named_association) { Post.reflect_on_all_associations(:belongs_to).first }
+  let(:polymorphic_association) { Vote.reflect_on_all_associations(:belongs_to).first }
 
   describe "#polymorphic?" do
     context "when given a non-polymorphic dependency" do
+      subject { described_class.new(standard_association) }
+
       its(:polymorphic?) { should == false }
     end
 
     context "when given a polymorphic dependency" do
-      before do
-        association.options.merge!(polymorphic)
-      end
+      subject { described_class.new(polymorphic_association) }
 
       its(:polymorphic?) { should == true }
     end
@@ -23,13 +26,13 @@ describe Sprig::Reap::Association do
 
   describe "#klass" do
     context "given a standard association" do
-      its(:klass) { should == User }
+      subject { described_class.new(standard_association) }
+
+      its(:klass) { should == Post }
     end
 
     context "given a named association" do
-      before do
-        association.options.merge!(named_assoc)
-      end
+      subject { described_class.new(class_named_association) }
 
       its(:klass) { should == User }
     end
@@ -37,64 +40,47 @@ describe Sprig::Reap::Association do
 
   describe "#polymorphic_dependencies" do
     context "when the association is not polymorphic" do
+      subject { described_class.new(standard_association) }
+
       its(:polymorphic_dependencies) { should == [] }
     end
 
     context "when the association is polymorphic" do
-      let(:models) { double('Models', :select => 'dependencies') }
+      subject { described_class.new(polymorphic_association) }
 
-      before do
-        association.options.merge!(polymorphic)
-        ActiveRecord::Base.stub(:subclasses).and_return(models)
-      end
-
-      its(:polymorphic_dependencies) { should == 'dependencies' }
+      its(:polymorphic_dependencies) { should == [Post] }
     end
   end
 
   describe "#polymorphic_match?" do
-    let(:model) { double('Model') }
-    let(:match) { { :as => :user } }
-
-    before do
-      model.stub(:reflect_on_all_associations).with(:has_many).and_return([association])
-    end
-
     context "when the given model does not have a matching polymorphic association" do
+      subject { described_class.new(polymorphic_association) }
+
       it "returns false" do
-        subject.polymorphic_match?(model).should == false
+        subject.polymorphic_match?(User).should == false
       end
     end
 
     context "when the given model has a matching polymorphic association" do
-      before do
-        association.options.merge!(match)
-      end
+      subject { described_class.new(polymorphic_association) }
 
       it "returns true" do
-        subject.polymorphic_match?(model).should == true
+        subject.polymorphic_match?(Post).should == true
       end
     end
   end
 
   describe "#dependencies" do
     context "when the association is polymorphic" do
-      let(:model)  { double('Post') }
-      let(:models) { [model] }
-      let(:match)  { { :as => :user } }
-      let(:assoc)  { double('ActiveRecord::Reflection::AssociationReflection', :name => :post, :options => match) }
+      subject { described_class.new(standard_association) }
 
-      before do
-        association.options.merge!(polymorphic)
-        ActiveRecord::Base.stub(:subclasses).and_return(models)
-        model.stub(:reflect_on_all_associations).with(:has_many).and_return([assoc])
-      end
-
-      its(:dependencies) { should == [model] }
+      its(:dependencies) { should == [Post] }
     end
 
     context "when the association is not polymorphic" do
-      its(:dependencies) { should == [User] }
+      subject { described_class.new(polymorphic_association) }
+
+      its(:dependencies) { should == [Post] }
     end
   end
 end
