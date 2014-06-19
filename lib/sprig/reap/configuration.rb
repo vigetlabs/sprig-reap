@@ -13,7 +13,6 @@ module Sprig::Reap
 
     def classes
       @classes ||= valid_classes
-
     end
 
     def classes=(given_classes)
