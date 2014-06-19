@@ -10,7 +10,9 @@ module Sprig::Reap
   autoload :SeedFile,      'sprig/reap/seed_file'
 
   class << self
-    def reap(options = {})
+    def reap(input = {})
+      options = Hash(input)
+
       configure do |config|
         config.target_env    = options[:target_env]    || options['TARGET_ENV']
         config.classes       = options[:models]        || options['MODELS']
