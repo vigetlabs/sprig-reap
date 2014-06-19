@@ -11,7 +11,7 @@ describe Sprig::Reap::Record do
   subject { described_class.new(record, model) }
 
   before do
-    attrs = { 
+    attrs = {
       'id'      => 0,
       'such'    => 1,
       'wow'     => 2,
@@ -28,17 +28,13 @@ describe Sprig::Reap::Record do
     Sprig::Reap::Model.stub(:find).and_return(reap_record)
   end
 
-  its(:id)      { should == 0 }
-  its(:such)    { should == 1 }
-  its(:wow)     { should == 2 }
-  its(:very_id) { should == sprig_record }
+  its(:id) { should == 0 }
 
   describe "#attributes" do
-    it "returns an array of attributes from the given model with sprig_id swapped out for id" do
+    it "returns an array of attributes from the given model sans id" do
       subject.attributes.should == %w(
-        sprig_id
         such
-        wow 
+        wow
         very_id
       )
     end
