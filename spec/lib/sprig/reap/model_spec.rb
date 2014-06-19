@@ -4,14 +4,15 @@ describe Sprig::Reap::Model do
   describe ".all" do
     let(:all_models) do
       [
+        described_class.new(User),
         described_class.new(Post),
         described_class.new(Comment),
-        described_class.new(User)
+        described_class.new(Vote)
       ]
     end
 
     before do
-      Sprig::Reap.stub(:classes).and_return([Comment, Post, User])
+      Sprig::Reap.stub(:classes).and_return([Comment, Post, User, Vote])
     end
 
     it "returns an dependency-sorted array of Sprig::Reap::Models" do
@@ -64,6 +65,34 @@ describe Sprig::Reap::Model do
     subject { described_class.new(Comment) }
 
     its(:dependencies) { should == [Post] }
+
+    context "when the model is polymorphic" do
+      subject { described_class.new(Vote) }
+
+      its(:dependencies) { should == [Post] }
+    end
+
+    context "when the model has a dependency with an explicit :class_name" do
+      subject { described_class.new(Post) }
+
+      its(:dependencies) { should == [User] }
+    end
+  end
+
+  describe "#associations" do
+    let(:association) { double('Association') }
+
+    subject { described_class.new(Post) }
+
+    before do
+      Post.stub(:reflect_on_all_associations).with(:belongs_to).and_return([association])
+    end
+
+    it "creates an Association object for each belongs to association the model has" do
+      Sprig::Reap::Association.should_receive(:new).with(association)
+
+      subject.associations
+    end
   end
 
   describe "#find" do

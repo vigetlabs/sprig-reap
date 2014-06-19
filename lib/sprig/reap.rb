@@ -6,6 +6,7 @@ module Sprig::Reap
   autoload :TsortableHash, 'sprig/reap/tsortable_hash'
   autoload :Configuration, 'sprig/reap/configuration'
   autoload :Model,         'sprig/reap/model'
+  autoload :Association,   'sprig/reap/association'
   autoload :Record,        'sprig/reap/record'
   autoload :SeedFile,      'sprig/reap/seed_file'
 

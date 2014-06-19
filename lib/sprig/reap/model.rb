@@ -26,8 +26,12 @@ module Sprig::Reap
     end
 
     def dependencies
-      @dependencies ||= klass.reflect_on_all_associations(:belongs_to).map do |association|
-        association.name.to_s.classify.constantize
+      @dependencies ||= associations.flat_map(&:dependencies)
+    end
+
+    def associations
+      @associations ||= klass.reflect_on_all_associations(:belongs_to).map do |association|
+        Association.new(association)
       end
     end
 

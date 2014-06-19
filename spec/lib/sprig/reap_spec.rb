@@ -14,8 +14,14 @@ describe Sprig::Reap do
       setup_seed_folder('./spec/fixtures/db/seeds/dreamland', &example)
     end
 
+    after do
+      subject.clear_config
+    end
+
     it "generates a seed file for each class" do
-      seed_file.should_receive(:write).exactly(3).times
+      count = Sprig::Reap.classes.count
+
+      seed_file.should_receive(:write).exactly(count).times
 
       subject.reap
     end
