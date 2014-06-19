@@ -27,7 +27,7 @@ module Sprig::Reap
     private
 
     def get_value_for(attr)
-      if dependency_finder.match(attr)
+      if dependency?(attr)
         klass    = klass_for(attr)
         id       = record.send(attr)
         sprig_id = Model.find(klass, id).sprig_id
@@ -38,12 +38,16 @@ module Sprig::Reap
       end
     end
 
-    def dependency_finder
-      /_id/
+    def dependency?(attr)
+      attr.in? model.associations.map(&:foreign_key)
     end
 
     def klass_for(attr)
-      attr.gsub(dependency_finder, '').classify.constantize
+      association_for(attr).klass
+    end
+
+    def association_for(attr)
+      model.associations.detect { |a| a.foreign_key == attr }
     end
 
     def sprig_record(klass, sprig_id)
