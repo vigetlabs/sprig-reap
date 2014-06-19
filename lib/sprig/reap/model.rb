@@ -3,7 +3,7 @@ module Sprig::Reap
     def self.all
       @@all ||= begin
         models = Sprig::Reap.classes.map { |klass| new(klass) }
-        
+
         tsorted_classes(models).map do |klass|
           models.find { |model| model.klass == klass }
         end

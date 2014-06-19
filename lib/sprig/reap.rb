@@ -12,7 +12,7 @@ module Sprig::Reap
 
   class << self
     def reap(input = {})
-      options = Hash(input)
+      options = input.to_hash
 
       configure do |config|
         config.target_env    = options[:target_env]    || options['TARGET_ENV']
