@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sprig-reap (0.0.3)
+    sprig-reap (0.0.4)
 
 GEM
   remote: https://rubygems.org/
