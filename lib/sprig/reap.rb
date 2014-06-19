@@ -1,9 +1,9 @@
 require "sprig/reap/version"
+require "sprig/reap/railtie"
 
 module Sprig::Reap
   autoload :Sprig,         'sprig'
   autoload :TsortableHash, 'sprig/reap/tsortable_hash'
-  autoload :Railtie,       'sprig/reap/railtie'
   autoload :Configuration, 'sprig/reap/configuration'
   autoload :Model,         'sprig/reap/model'
   autoload :Record,        'sprig/reap/record'
