@@ -125,6 +125,7 @@ describe Sprig::Reap::Model do
       before do
         subject.existing_sprig_ids = [1, 5, 'l_2', 'l_10', 'such_sprigs', 10.9]
       end
+
       it "returns an integer-type sprig_id that is not taken" do
         subject.generate_sprig_id.should == 6
       end
@@ -155,6 +156,16 @@ describe Sprig::Reap::Model do
     context "when no namespace is given" do
       it "returns the correct yaml" do
         subject.to_yaml.should == yaml_from_file('records_without_namespace.yml')
+      end
+    end
+
+    context "for a polymorphic model" do
+      it "returns the correct yaml" do
+        Vote.create(:votable => post1)
+
+        subject = described_class.new(Vote)
+
+        subject.to_yaml.should == yaml_from_file('polymorphic_vote_record.yml')
       end
     end
   end

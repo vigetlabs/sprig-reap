@@ -7,7 +7,7 @@ module Sprig::Reap
     end
 
     def klass
-      derive_class_from(name)
+      name.to_s.classify.constantize
     end
 
     def name
@@ -37,10 +37,9 @@ module Sprig::Reap
       association.options[:foreign_key] || name.to_s + '_id'
     end
 
-    private
-
-    def derive_class_from(input)
-      input.to_s.classify.constantize
+    def polymorphic_type
+      name.to_s + '_type'
     end
+
   end
 end

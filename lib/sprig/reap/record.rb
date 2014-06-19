@@ -42,12 +42,18 @@ module Sprig::Reap
       attr.in? model.associations.map(&:foreign_key)
     end
 
-    def klass_for(attr)
-      association_for(attr).klass
+    def klass_for(foreign_key)
+      association = association_for(foreign_key)
+
+      if association.polymorphic?
+        record.send(association.polymorphic_type).constantize
+      else
+        association.klass
+      end
     end
 
-    def association_for(attr)
-      model.associations.detect { |a| a.foreign_key == attr }
+    def association_for(foreign_key)
+      model.associations.detect { |a| a.foreign_key == foreign_key }
     end
 
     def sprig_record(klass, sprig_id)

@@ -26,6 +26,8 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+
+    stub_rails_application
   end
 
   config.after(:each) do

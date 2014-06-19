@@ -6,7 +6,13 @@ describe Sprig::Reap::Record do
   let(:record)       { double('ActiveRecord::Base Instance') }
   let(:model)        { double('Sprig::Reap::Model') }
   let(:reap_record)  { double('Sprig::Reap::Record for class Very', :sprig_id => 5) }
-  let(:association)  { double('Sprig::Reap::Association', :foreign_key => "very_id", :klass => Very) }
+  let(:association) do
+    double('Sprig::Reap::Association',
+      :foreign_key  => "very_id",
+      :klass        => Very,
+      :polymorphic? => false
+    )
+  end
   let(:sprig_record) { "<%= sprig_record(Very, 5).id %>" }
 
   subject { described_class.new(record, model) }
