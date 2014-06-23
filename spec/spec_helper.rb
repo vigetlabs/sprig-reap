@@ -6,7 +6,7 @@ require "database_cleaner"
 require "pry"
 require "generator_spec"
 
-require "sprig/reap"
+require "sprig-reap"
 
 %w(
   /fixtures/models/*rb
