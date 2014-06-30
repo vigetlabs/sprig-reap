@@ -2,12 +2,14 @@ module Sprig::Reap
   class Association
     attr_reader :association
 
+    delegate :foreign_key, :to => :association
+
     def initialize(association)
       @association = association
     end
 
     def klass
-      name.to_s.classify.constantize
+      polymorphic? ? nil : association.klass
     end
 
     def name
@@ -33,13 +35,8 @@ module Sprig::Reap
       polymorphic? ? polymorphic_dependencies : Array(klass)
     end
 
-    def foreign_key
-      association.options[:foreign_key] || name.to_s + '_id'
-    end
-
     def polymorphic_type
-      name.to_s + '_type'
+      polymorphic? ? association.foreign_type : nil
     end
-
   end
 end

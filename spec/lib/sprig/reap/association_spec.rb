@@ -36,6 +36,12 @@ describe Sprig::Reap::Association do
 
       its(:klass) { should == User }
     end
+
+    context "given a polymorphic association" do
+      subject { described_class.new(polymorphic_association) }
+
+      its(:klass) { should == nil }
+    end
   end
 
   describe "#polymorphic_dependencies" do
@@ -72,15 +78,49 @@ describe Sprig::Reap::Association do
 
   describe "#dependencies" do
     context "when the association is polymorphic" do
-      subject { described_class.new(standard_association) }
+      subject { described_class.new(polymorphic_association) }
 
       its(:dependencies) { should == [Post] }
     end
 
     context "when the association is not polymorphic" do
-      subject { described_class.new(polymorphic_association) }
+      subject { described_class.new(standard_association) }
 
       its(:dependencies) { should == [Post] }
+    end
+  end
+
+  describe "#foreign_key" do
+    context "given a standard association" do
+      subject { described_class.new(standard_association) }
+
+      its(:foreign_key) { should == 'post_id' }
+    end
+
+    context "given a named association" do
+      subject { described_class.new(class_named_association) }
+
+      its(:foreign_key) { should == 'poster_id' }
+    end
+
+    context "given a polymorphic association" do
+      subject { described_class.new(polymorphic_association) }
+
+      its(:foreign_key) { should == 'votable_id' }
+    end
+  end
+
+  describe "#polymorphic_type" do
+    context "when the association is polymorphic" do
+      subject { described_class.new(polymorphic_association) }
+
+      its(:polymorphic_type) { should == 'votable_type' }
+    end
+
+    context "when the association is not polymorphic" do
+      subject { described_class.new(standard_association) }
+
+      its(:polymorphic_type) { should == nil }
     end
   end
 end
