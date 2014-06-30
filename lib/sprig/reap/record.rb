@@ -30,7 +30,7 @@ module Sprig::Reap
       if dependency?(attr)
         klass    = klass_for(attr)
         id       = record.send(attr)
-        sprig_id = Model.find(klass, id).sprig_id
+        sprig_id = Model.find(klass, id).try(:sprig_id)
 
         sprig_record(klass, sprig_id)
       else
@@ -57,6 +57,8 @@ module Sprig::Reap
     end
 
     def sprig_record(klass, sprig_id)
+      return if sprig_id.nil?
+
       "<%= sprig_record(#{klass}, #{sprig_id}).id %>"
     end
   end
