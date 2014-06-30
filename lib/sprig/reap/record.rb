@@ -34,7 +34,7 @@ module Sprig::Reap
 
         sprig_record(klass, sprig_id)
       else
-        record.send(attr)
+        record.read_attribute(attr)
       end
     end
 
