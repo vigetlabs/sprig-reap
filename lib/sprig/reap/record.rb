@@ -34,7 +34,7 @@ module Sprig::Reap
 
         sprig_record(klass, sprig_id)
       else
-        record.read_attribute(attr)
+        read_attribute attr
       end
     end
 
@@ -60,6 +60,12 @@ module Sprig::Reap
       return if sprig_id.nil?
 
       "<%= sprig_record(#{klass}, #{sprig_id}).id %>"
+    end
+
+    def read_attribute(attr)
+      file_attr = FileAttribute.new(record.send(attr))
+
+      file_attr.file.try(:path) || record.read_attribute(attr)
     end
   end
 end

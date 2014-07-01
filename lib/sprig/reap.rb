@@ -8,6 +8,7 @@ module Sprig::Reap
   autoload :Association,   'sprig/reap/association'
   autoload :Record,        'sprig/reap/record'
   autoload :SeedFile,      'sprig/reap/seed_file'
+  autoload :FileAttribute, 'sprig/reap/file_attribute'
 
   class << self
     def reap(input = {})

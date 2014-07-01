@@ -3,7 +3,11 @@ require 'spec_helper'
 class Very; end
 
 describe Sprig::Reap::Record do
-  let!(:user) { User.create(:first_name => 'Bo', :last_name => 'Janglez') }
+  let!(:user) do
+    User.create(:first_name => 'Bo',
+                :last_name  => 'Janglez',
+                :avatar     => File.open('spec/fixtures/images/avatar.png'))
+  end
 
   let!(:post) do
     Post.create(:poster    => user,
@@ -21,6 +25,15 @@ describe Sprig::Reap::Record do
 
   let!(:models) { Sprig::Reap::Model.all }
   let!(:model)  { models.find { |model| model.klass == Post } }
+
+  before do
+    stub_rails_root
+    Sprig::Reap.stub(:target_env).and_return('dreamland')
+  end
+
+  after do
+    FileUtils.remove_dir('./uploads')
+  end
 
   describe "#id" do
     subject { described_class.new(post, model) }
@@ -67,6 +80,29 @@ describe Sprig::Reap::Record do
         }
       end
     end
+
+    context "when an attribute is wrapped in a CarrierWave uploader" do
+      let(:user_model) { models.find { |model| model.klass == User } }
+
+      subject { described_class.new(user, user_model) }
+
+      around do |example|
+        setup_seed_folder('./spec/fixtures/db/seeds/dreamland/files', &example)
+      end
+
+      it "provides a path for a locally-stored version of the file" do
+        subject.to_hash.should == {
+          'sprig_id'   => user.id,
+          'first_name' => 'Bo',
+          'last_name'  => 'Janglez',
+          'type'       => user.type,
+          'avatar'     => './spec/fixtures/db/seeds/dreamland/files/avatar.png'
+        }
+      end
+    end
+  end
+
+  describe "#local_file_for" do
   end
 
   describe "#sprig_id" do
