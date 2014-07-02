@@ -108,7 +108,7 @@ describe Sprig::Reap::FileAttribute do
       end
 
       it "creates a file at the target location" do
-        local_file.file.path.should == subject.target_location.to_s
+        local_file.path.should == subject.target_location.to_s
       end
 
       it "creates a file with the same contents as the file from the existing location" do
@@ -116,6 +116,16 @@ describe Sprig::Reap::FileAttribute do
           open(subject.existing_location) do |existing_file|
             local_file.should be_same_file_as(existing_file)
           end
+        end
+      end
+
+      context "and a file already exists at the target location" do
+        before do
+          File.stub(:exist?).with(subject.target_location).and_return(true)
+        end
+
+        it "assigns a unique filename" do
+          local_file.path.should_not == subject.target_location.to_s
         end
       end
     end
@@ -138,6 +148,16 @@ describe Sprig::Reap::FileAttribute do
           File.open(subject.existing_location, 'r') do |existing_file|
             local_file.should be_same_file_as(existing_file)
           end
+        end
+      end
+
+      context "and a file already exists at the target location" do
+        before do
+          File.stub(:exist?).with(subject.target_location).and_return(true)
+        end
+
+        it "assigns a unique filename" do
+          local_file.path.should_not == subject.target_location.to_s
         end
       end
     end

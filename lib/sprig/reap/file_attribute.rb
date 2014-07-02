@@ -37,8 +37,10 @@ module Sprig::Reap
     private
 
     class LocalFile < Struct.new(:uri, :target_location)
+      delegate :path, :size, :to => :file
+
       def file
-        @file ||= File.open(target_location, 'w', :encoding => encoding).tap do |file|
+        @file ||= File.open(unique_location, 'w', :encoding => encoding).tap do |file|
           io.rewind
           file.write(io.read)
         end
@@ -53,8 +55,14 @@ module Sprig::Reap
         io.read.encoding
       end
 
-      def path
-        file.path
+      private
+
+      def unique_location
+        File.exist?(target_location) ? target_location.to_s.gsub(basename, basename + rand(99999).to_s) : target_location
+      end
+
+      def basename
+        @basename ||= File.basename(target_location).gsub(File.extname(target_location), '')
       end
     end
   end
