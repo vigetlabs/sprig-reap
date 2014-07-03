@@ -16,7 +16,7 @@ module Sprig::Reap
 
     def existing_location
       begin
-        input.url
+        input.url if input.url.present? && open(input.url).is_a?(Tempfile)
       rescue
         input.path
       end

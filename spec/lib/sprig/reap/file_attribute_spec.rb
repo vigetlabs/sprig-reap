@@ -59,9 +59,19 @@ describe Sprig::Reap::FileAttribute do
     end
 
     context "for a remotely-stored file" do
-      before { mock_remote subject }
+      context "with an incomplete url (CarrierWave storage set to :file for dev/test)" do
+        before { subject.input.stub(:url).and_return('/carrierwave/storage/file') }
 
-      its(:existing_location) { should == sprig_logo_url }
+        it "falls back to the local path in the case of " do
+          subject.existing_location.should == subject.input.path
+        end
+      end
+
+      context "with a valid url" do
+        before { mock_remote subject }
+
+        its(:existing_location) { should == sprig_logo_url }
+      end
     end
   end
 
