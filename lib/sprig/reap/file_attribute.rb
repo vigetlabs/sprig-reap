@@ -51,16 +51,12 @@ module Sprig::Reap
         @file ||= File.open(unique_location, 'w', :encoding => encoding).tap do |file|
           io.rewind
           file.write(io.read)
+          io.close
         end
       end
 
       def io
         @io ||= open uri
-      end
-
-      def encoding
-        io.rewind
-        io.read.encoding
       end
 
       def sprig_location
@@ -70,7 +66,12 @@ module Sprig::Reap
       private
 
       def unique_location
-        File.exist?(target_location) ? target_location.to_s.gsub(basename, basename + rand(99999).to_s) : target_location
+        File.exist?(target_location) ? target_location.to_s.gsub(basename, basename + SecureRandom::uuid.to_s) : target_location
+      end
+
+      def encoding
+        io.rewind
+        io.read.encoding
       end
 
       def basename
