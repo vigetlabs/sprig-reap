@@ -96,7 +96,7 @@ describe Sprig::Reap::Record do
           'first_name' => 'Bo',
           'last_name'  => 'Janglez',
           'type'       => user.type,
-          'avatar'     => './spec/fixtures/db/seeds/dreamland/files/avatar.png'
+          'avatar'     => "<%= sprig_file('avatar.png') %>"
         }
       end
     end

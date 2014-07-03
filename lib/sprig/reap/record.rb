@@ -65,7 +65,7 @@ module Sprig::Reap
     def read_attribute(attr)
       file_attr = FileAttribute.new(record.send(attr))
 
-      file_attr.file.try(:path) || record.read_attribute(attr)
+      file_attr.file.try(:sprig_location) || record.read_attribute(attr)
     end
   end
 end

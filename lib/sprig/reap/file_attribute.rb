@@ -63,6 +63,10 @@ module Sprig::Reap
         io.read.encoding
       end
 
+      def sprig_location
+        "<%= sprig_file('#{File.basename(file.path)}') %>"
+      end
+
       private
 
       def unique_location
