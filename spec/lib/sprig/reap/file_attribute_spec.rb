@@ -92,11 +92,29 @@ describe Sprig::Reap::FileAttribute do
   describe "#target_location" do
     subject { carrierwave }
 
-    around do |example|
-      setup_seed_folder('./spec/fixtures/db/seeds/dreamland/files', &example)
+    context "when the files folder does not exist" do
+      let(:files_folder)  { './spec/fixtures/db/seeds/dreamland/files' }
+      let(:delete_folder) { FileUtils.remove_dir(files_folder) if Dir.exists?(files_folder) }
+
+      before { delete_folder }
+      after  { delete_folder }
+
+      it "creates the folder and returns the path" do
+        Dir.exists?(files_folder).should == false
+
+        subject.target_location.to_s.should == files_folder + '/' + subject.filename
+
+        Dir.exists?(files_folder).should == true
+      end
     end
 
-    its(:target_location) { should == Rails.root.join('db', 'seeds', 'dreamland', 'files', subject.filename) }
+    context "when the files folder exists" do
+      around do |example|
+        setup_seed_folder('./spec/fixtures/db/seeds/dreamland/files', &example)
+      end
+
+      its(:target_location) { should == Rails.root.join('db', 'seeds', 'dreamland', 'files', subject.filename) }
+    end
   end
 
   describe "#local_file" do

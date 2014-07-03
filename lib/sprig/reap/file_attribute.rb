@@ -26,8 +26,16 @@ module Sprig::Reap
       File.basename(existing_location)
     end
 
+    def target_folder
+      @target_folder ||= begin
+        path = Rails.root.join('db', 'seeds', Sprig::Reap.target_env, 'files')
+        FileUtils.mkdir_p(path)
+        path
+      end
+    end
+
     def target_location
-      Rails.root.join('db', 'seeds', Sprig::Reap.target_env, 'files', filename)
+      target_folder.join(filename)
     end
 
     def local_file
