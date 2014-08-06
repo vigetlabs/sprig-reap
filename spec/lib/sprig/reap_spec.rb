@@ -18,8 +18,9 @@ describe Sprig::Reap do
       subject.clear_config
     end
 
-    it "outputs a log message" do
-      log_should_receive :debug, with: "Reaping records from the database...\r"
+    it "outputs log messages when starting and on completion" do
+      log_should_receive :debug, :with => "Reaping records from the database...\r"
+      log_should_receive :debug, :with => "Finished reaping!"
 
       subject.reap
     end

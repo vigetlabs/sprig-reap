@@ -168,6 +168,42 @@ describe Sprig::Reap::Model do
         subject.to_yaml.should == yaml_from_file('polymorphic_vote_record.yml')
       end
     end
+
+    context "when there are no records for a given model" do
+      subject { described_class.new(Vote) }
+
+      its(:to_yaml) { should == nil }
+    end
+  end
+
+  describe "#records" do
+    let!(:post1) { Post.create }
+    let!(:post2) { Post.create }
+    let(:record) { double('Sprig::Reap::Record') }
+
+    subject { described_class.new(Post) }
+
+    before do
+      Sprig::Reap::Record.stub(:new).and_return(record)
+    end
+
+    its(:records) { should == [record, record] }
+
+    context "when there's an error accessing the database table for a given model" do
+      before do
+        Post.stub(:all).and_raise(StandardError)
+      end
+
+      it "logs an error message" do
+        log_should_receive :error, :with => "Encountered an error when pulling the database records for Post...\r"
+
+        subject.records
+      end
+
+      it "sets records to an empty array" do
+        subject.records.should == []
+      end
+    end
   end
 
   def yaml_from_file(basename)

@@ -26,6 +26,8 @@ module Sprig::Reap
       log_debug "Reaping records from the database...\r"
 
       Model.all.each { |model| SeedFile.new(model).write }
+
+      log_debug "Finished reaping!"
     end
 
     def clear_config

@@ -23,6 +23,7 @@ module Sprig::Reap
     def write
       initialize_file do |file, namespace|
         file.write model.to_yaml(:namespace => namespace)
+        log_info "Successfully reaped records for #{model}...\r"
       end
     end
 

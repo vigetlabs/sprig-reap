@@ -59,6 +59,12 @@ describe Sprig::Reap::SeedFile do
       setup_seed_folder('./spec/fixtures/db/seeds/dreamland', &example)
     end
 
+    it "logs the successful reap of database records for the given model" do
+      log_should_receive :info, :with => "Successfully reaped records for #{model}...\r"
+
+      subject.write
+    end
+
     context "when the seed file already exists" do
       before do
         yaml = File.read('./spec/fixtures/yaml/comment_seeds.yml')
@@ -132,7 +138,7 @@ describe Sprig::Reap::SeedFile do
       end
 
       it "logs an error for the given model" do
-        log_should_receive :error, with: "There was an issue writing to the file for Comment...\r"
+        log_should_receive :error, :with => "There was an issue writing to the file for Comment...\r"
 
         subject.write
       end

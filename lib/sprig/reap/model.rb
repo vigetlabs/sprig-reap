@@ -1,5 +1,7 @@
 module Sprig::Reap
   class Model
+    include Logging
+
     def self.all
       @@all ||= begin
         models = Sprig::Reap.classes.map { |klass| new(klass) }
@@ -52,6 +54,8 @@ module Sprig::Reap
     end
 
     def to_yaml(options = {})
+      return if records.empty?
+
       namespace         = options[:namespace]
       formatted_records = records.map(&:to_hash)
 
@@ -66,6 +70,9 @@ module Sprig::Reap
 
     def records
       @records ||= klass.all.map { |record| Record.new(record, self) }
+    rescue
+      log_error "Encountered an error when pulling the database records for #{to_s}...\r"
+      []
     end
 
     private
