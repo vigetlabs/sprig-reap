@@ -18,6 +18,12 @@ describe Sprig::Reap do
       subject.clear_config
     end
 
+    it "outputs a log message" do
+      log_should_receive :debug, with: "Reaping records from the database...\r"
+
+      subject.reap
+    end
+
     it "generates a seed file for each class" do
       count = Sprig::Reap.classes.count
 

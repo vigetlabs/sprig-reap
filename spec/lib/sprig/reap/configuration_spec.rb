@@ -144,4 +144,12 @@ describe Sprig::Reap::Configuration do
       its(:ignored_attrs) { should == ['shaka', 'laka'] }
     end
   end
+
+  describe "#logger" do
+    it "initializes a new logger" do
+      Logger.should_receive(:new)
+
+      subject.logger
+    end
+  end
 end

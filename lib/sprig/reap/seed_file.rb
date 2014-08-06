@@ -1,5 +1,7 @@
 module Sprig::Reap
   class SeedFile
+    include Logging
+
     DEFAULT_NAMESPACE = 'records'
 
     attr_reader :model
@@ -41,6 +43,9 @@ module Sprig::Reap
 
         yield file, namespace
       end
+
+    rescue
+      log_error "There was an issue writing to the file for #{model}...\r"
     end
 
     def existing_sprig_ids(yaml)

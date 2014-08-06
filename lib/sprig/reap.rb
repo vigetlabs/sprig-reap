@@ -9,6 +9,9 @@ module Sprig::Reap
   autoload :Record,        'sprig/reap/record'
   autoload :SeedFile,      'sprig/reap/seed_file'
   autoload :FileAttribute, 'sprig/reap/file_attribute'
+  autoload :Logging,       'sprig/reap/logging'
+
+  extend Logging
 
   class << self
     def reap(input = {})
@@ -19,6 +22,8 @@ module Sprig::Reap
         config.classes       = options[:models]        || options['MODELS']
         config.ignored_attrs = options[:ignored_attrs] || options['IGNORED_ATTRS']
       end
+
+      log_debug "Reaping records from the database...\r"
 
       Model.all.each { |model| SeedFile.new(model).write }
     end
@@ -34,6 +39,7 @@ module Sprig::Reap
     delegate :target_env,
              :classes,
              :ignored_attrs,
+             :logger,
              to: :configuration
 
     def configuration

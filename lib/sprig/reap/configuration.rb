@@ -29,6 +29,10 @@ module Sprig::Reap
       @ignored_attrs = parse_ignored_attrs_from(input)
     end
 
+    def logger
+      @logger ||= Logger.new($stdout)
+    end
+
     private
 
     def valid_classes

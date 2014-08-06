@@ -125,5 +125,17 @@ describe Sprig::Reap::SeedFile do
         File.size?(subject.path).should > 0
       end
     end
+
+    context "when there are errors writing to the file" do
+      before do
+        File.stub(:open).and_raise(StandardError)
+      end
+
+      it "logs an error for the given model" do
+        log_should_receive :error, with: "There was an issue writing to the file for Comment...\r"
+
+        subject.write
+      end
+    end
   end
 end

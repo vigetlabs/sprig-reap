@@ -20,6 +20,8 @@ end
 RSpec.configure do |config|
   config.include RailsStubs
   config.include FileSetup
+  config.include LoggerMock
+  config.include ColoredText
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
