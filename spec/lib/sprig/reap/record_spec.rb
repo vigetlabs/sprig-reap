@@ -100,9 +100,21 @@ describe Sprig::Reap::Record do
         }
       end
     end
-  end
 
-  describe "#local_file_for" do
+    context "when Sprig::Reap is configured to omit empty attributes" do
+      subject { described_class.new(posterless_post, model) }
+
+      before { Sprig::Reap.stub(:omit_empty_attrs).and_return(true) }
+
+      it "removes empty attributes from the resulting hash" do
+        subject.to_hash.should == {
+          'sprig_id'  => posterless_post.id,
+          'title'     => 'Wow Title',
+          'content'   => 'Much Content',
+          'published' => false
+        }
+      end
+    end
   end
 
   describe "#sprig_id" do

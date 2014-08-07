@@ -80,6 +80,22 @@ describe Sprig::Reap do
         end
       end
     end
+
+    context "when passed a value for omitting empty attributes in the options hash" do
+      context "in :omit_empty_attrs" do
+        it "sets the flag to omit empty attributes" do
+          subject.reap(:omit_empty_attrs => true)
+          subject.omit_empty_attrs.should == true
+        end
+      end
+
+      context "in OMIT_EMPTY_ATTRS" do
+        it "sets the flag to omit empty attributes" do
+          subject.reap('OMIT_EMPTY_ATTRS' => ' TRUE ')
+          subject.omit_empty_attrs.should == true
+        end
+      end
+    end
   end
 
   describe ".clear_config" do

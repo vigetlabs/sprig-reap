@@ -17,6 +17,8 @@ module Sprig::Reap
     def to_hash
       attributes.reduce({"sprig_id" => sprig_id}) do |hash, attr|
         hash.merge(attr => get_value_for(attr))
+      end.tap do |hash|
+        hash.delete_if { |attr, value| value.nil? } if Sprig::Reap.omit_empty_attrs
       end
     end
 

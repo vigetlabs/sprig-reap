@@ -127,7 +127,7 @@ describe Sprig::Reap::Configuration do
 
   describe "#ignored_attrs=" do
     context "when given nil" do
-      before { subject.classes = nil }
+      before { subject.ignored_attrs = nil }
 
       its(:ignored_attrs) { should == [] }
     end
@@ -145,11 +145,37 @@ describe Sprig::Reap::Configuration do
     end
   end
 
+<<<<<<< HEAD
   describe "#logger" do
     it "initializes a new logger" do
       Logger.should_receive(:new)
 
       subject.logger
+=======
+  describe "#omit_empty_attrs" do
+    context "from a fresh configuration" do
+      its(:omit_empty_attrs) { should == false }
+    end
+  end
+
+  describe "#omit_empty_attrs" do
+    context "when given nil" do
+      before { subject.omit_empty_attrs = nil }
+
+      its(:omit_empty_attrs) { should == false }
+    end
+
+    context "when given a word other than true" do
+      before { subject.omit_empty_attrs = ' Shaboosh' }
+
+      its(:omit_empty_attrs) { should == false }
+    end
+
+    context "when given true" do
+      before { subject.omit_empty_attrs = 'True' }
+
+      its(:omit_empty_attrs) { should == true }
+>>>>>>> Add an option to allow users to omit empty attributes from seed files (fix #9)
     end
   end
 end

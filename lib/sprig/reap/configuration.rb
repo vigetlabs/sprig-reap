@@ -33,6 +33,14 @@ module Sprig::Reap
       @logger ||= Logger.new($stdout)
     end
 
+    def omit_empty_attrs
+      @omit_empty_attrs ||= false
+    end
+
+    def omit_empty_attrs=(input)
+      @omit_empty_attrs = true if String(input).strip.downcase == 'true'
+    end
+
     private
 
     def valid_classes
