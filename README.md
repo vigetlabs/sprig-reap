@@ -35,17 +35,59 @@ after the STI base model.  STI sub-type records will all be written to that file
 
 ### Additional Configuration
 
-Don't like the defaults when reaping Sprig::Reap records? You may specify the target environment
-(`db/seeds` target folder), models (`ActiveRecord::Base.subclasses`-only) you want seed files for,
-or any ignored attributes you don't want to show up in any of the seed files.
+Don't like the defaults when reaping Sprig::Reap records? Change 'em!
 
+#### Target Environment
+You may specify the target environment (`db/seeds` target folder):
 ```
 # Rake Task
-rake db:seed:reap TARGET_ENV=integration MODELS=User,Post IGNORED_ATTRS=created_at,updated_at
+rake db:seed:reap TARGET_ENV=integration
 
 # Rails Console
-Sprig.reap(target_env: 'integration', models: [User, Post], ignored_attrs: [:created_at,
-:updated_at])
+Sprig.reap(target_env: 'integration')
+```
+
+#### Model List
+If you only want to `reap` a subset of your models, you may provide a list of models
+(`ActiveRecord::Base.subclasses`-only) you want seed files for:
+```
+# Rake Task
+rake db:seed:reap MODELS=User,Post
+
+# Rails Console
+Sprig.reap(models: [User, Post])
+```
+
+#### Ignored Attributes
+If there are any ignored attributes you don't want to show up in any of the seed files, let `reap`
+know:
+```
+# Rake Task
+rake db:seed:reap IGNORED_ATTRS=created_at,updated_at
+
+# Rails Console
+Sprig.reap(ignored_attrs: [:created_at, :updated_at])
+```
+
+#### Omitting Empty Attributes
+If you have models with lots of attributes that could potentially be `nil`/empty, the resulting seed
+files could get cluttered with all the `nil` values.  Remove them from your seed files with:
+```
+# Rake Task
+rake db:seed:reap OMIT_EMPTY_ATTRS=true
+
+# Rails Console
+Sprig.reap(omit_empty_attrs: true)
+```
+
+#### Combine Them All!
+You're free to take or leave as many options as you'd like:
+```
+# Rake Task
+rake db:seed:reap TARGET_ENV=integration MODELS=User,Post IGNORED_ATTRS=created_at,updated_at OMIT_EMPTY_ATTRS=true
+
+# Rails Console
+Sprig.reap(target_env: 'integration', models: [User, Post], ignored_attrs: [:created_at, :updated_at], omit_empty_attrs: true)
 ```
 
 ### Adding to Existing Seed Files (`.yaml` only)
