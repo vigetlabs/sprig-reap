@@ -145,13 +145,14 @@ describe Sprig::Reap::Configuration do
     end
   end
 
-<<<<<<< HEAD
   describe "#logger" do
     it "initializes a new logger" do
       Logger.should_receive(:new)
 
       subject.logger
-=======
+    end
+  end
+
   describe "#omit_empty_attrs" do
     context "from a fresh configuration" do
       its(:omit_empty_attrs) { should == false }
@@ -175,7 +176,6 @@ describe Sprig::Reap::Configuration do
       before { subject.omit_empty_attrs = 'True' }
 
       its(:omit_empty_attrs) { should == true }
->>>>>>> Add an option to allow users to omit empty attributes from seed files (fix #9)
     end
   end
 end
