@@ -70,8 +70,8 @@ module Sprig::Reap
 
     def records
       @records ||= klass.all.map { |record| Record.new(record, self) }
-    rescue
-      log_error "Encountered an error when pulling the database records for #{to_s}...\r"
+    rescue => e
+      log_error "Encountered an error when pulling the database records for #{to_s}:\r#{e.message}"
       []
     end
 

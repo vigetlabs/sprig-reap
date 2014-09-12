@@ -45,8 +45,8 @@ module Sprig::Reap
         yield file, namespace
       end
 
-    rescue
-      log_error "There was an issue writing to the file for #{model}...\r"
+    rescue => e
+      log_error "There was an issue writing to the file for #{model}:\r#{e.message}"
     end
 
     def existing_sprig_ids(yaml)

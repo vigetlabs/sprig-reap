@@ -134,11 +134,11 @@ describe Sprig::Reap::SeedFile do
 
     context "when there are errors writing to the file" do
       before do
-        File.stub(:open).and_raise(StandardError)
+        File.stub(:open).and_raise(StandardError, 'Oh snap')
       end
 
       it "logs an error for the given model" do
-        log_should_receive :error, :with => "There was an issue writing to the file for Comment...\r"
+        log_should_receive :error, :with => "There was an issue writing to the file for Comment:\rOh snap"
 
         subject.write
       end

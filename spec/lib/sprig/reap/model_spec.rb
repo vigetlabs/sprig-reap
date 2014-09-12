@@ -191,11 +191,11 @@ describe Sprig::Reap::Model do
 
     context "when there's an error accessing the database table for a given model" do
       before do
-        Post.stub(:all).and_raise(StandardError)
+        Post.stub(:all).and_raise(StandardError, 'Oh snap')
       end
 
       it "logs an error message" do
-        log_should_receive :error, :with => "Encountered an error when pulling the database records for Post...\r"
+        log_should_receive :error, :with => "Encountered an error when pulling the database records for Post:\rOh snap"
 
         subject.records
       end
