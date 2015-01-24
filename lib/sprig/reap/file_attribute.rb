@@ -11,7 +11,7 @@ module Sprig::Reap
     end
 
     def file?
-      input.is_a? CarrierWave::Uploader::Base
+      defined?(::CarrierWave) && input.is_a?(::CarrierWave::Uploader::Base)
     end
 
     def existing_location
