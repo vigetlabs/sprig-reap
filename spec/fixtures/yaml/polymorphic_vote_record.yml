@@ -1,3 +1,3 @@
 - sprig_id: 1
-  votable_id: <%= sprig_record(Post, 1).id %>
+  votable_id: "<%= sprig_record(Post, 1).id %>"
   votable_type: Post
