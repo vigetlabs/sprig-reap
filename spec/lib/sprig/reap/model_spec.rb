@@ -207,6 +207,6 @@ describe Sprig::Reap::Model do
   end
 
   def yaml_from_file(basename)
-    File.read('spec/fixtures/yaml/' + basename)
+    YAML.load(File.read('spec/fixtures/yaml/' + basename)).to_yaml.gsub("---\n", '')
   end
 end
