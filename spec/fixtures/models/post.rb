@@ -3,6 +3,8 @@ class Post < ActiveRecord::Base
 
   has_many :votes, :as => :votable
 
+  has_and_belongs_to_many :tags
+
   def title
     WrappedAttribute.new(self[:title])
   end

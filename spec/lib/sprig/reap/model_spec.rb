@@ -7,12 +7,13 @@ describe Sprig::Reap::Model do
         described_class.new(User),
         described_class.new(Post),
         described_class.new(Comment),
-        described_class.new(Vote)
+        described_class.new(Vote),
+        described_class.new(Tag)
       ]
     end
 
     before do
-      Sprig::Reap.stub(:classes).and_return([Comment, Post, User, Vote])
+      Sprig::Reap.stub(:classes).and_return([Comment, Post, User, Vote, Tag])
     end
 
     it "returns an dependency-sorted array of Sprig::Reap::Models" do
