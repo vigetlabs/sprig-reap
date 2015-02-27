@@ -23,6 +23,7 @@ describe Sprig::Reap::Record do
                 :published => false)
   end
 
+  let!(:tag)    { Tag.create(name: 'Awesome', post_ids: [post.id]) }
   let!(:models) { Sprig::Reap::Model.all }
   let!(:model)  { models.find { |model| model.klass == Post } }
 
@@ -50,6 +51,7 @@ describe Sprig::Reap::Record do
         content
         published
         poster_id
+        tag_ids
       )
     end
   end
@@ -63,7 +65,8 @@ describe Sprig::Reap::Record do
         'title'     => 'Such Title',
         'content'   => 'Very Content',
         'published' => true,
-        'poster_id' => "<%= sprig_record(User, #{user.id}).id %>"
+        'poster_id' => "<%= sprig_record(User, #{user.id}).id %>",
+        'tag_ids'   => ["<%= sprig_record(Tag, #{tag.id}).id %>"]
       }
     end
 
@@ -76,7 +79,8 @@ describe Sprig::Reap::Record do
           'title'     => 'Wow Title',
           'content'   => 'Much Content',
           'published' => false,
-          'poster_id' => nil
+          'poster_id' => nil,
+          'tag_ids'   => []
         }
       end
     end

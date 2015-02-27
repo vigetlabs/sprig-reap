@@ -6,6 +6,7 @@ module Sprig::Reap
   autoload :Configuration, 'sprig/reap/configuration'
   autoload :Model,         'sprig/reap/model'
   autoload :Association,   'sprig/reap/association'
+  autoload :Value,         'sprig/reap/value'
   autoload :Record,        'sprig/reap/record'
   autoload :SeedFile,      'sprig/reap/seed_file'
   autoload :FileAttribute, 'sprig/reap/file_attribute'
