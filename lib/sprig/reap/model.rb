@@ -79,7 +79,7 @@ module Sprig::Reap
 
     def has_dependencies?
       proc do |association|
-        %i(belongs_to has_and_belongs_to_many).include? association.macro
+        [:belongs_to, :has_and_belongs_to_many].include? association.macro
       end
     end
 
