@@ -9,6 +9,7 @@ describe Sprig::Reap::Association do
   let(:standard_association)    { Comment.reflect_on_all_associations(:belongs_to).first }
   let(:class_named_association) { Post.reflect_on_all_associations(:belongs_to).first }
   let(:polymorphic_association) { Vote.reflect_on_all_associations(:belongs_to).first }
+  let(:habtm_association)       { Tag.reflect_on_all_associations(:has_and_belongs_to_many).first }
 
   describe "#polymorphic?" do
     context "when given a non-polymorphic dependency" do
@@ -121,6 +122,48 @@ describe Sprig::Reap::Association do
       subject { described_class.new(standard_association) }
 
       its(:polymorphic_type) { should == nil }
+    end
+  end
+
+  describe "#has_and_belongs_to_many?" do
+    context "when the association is a has-and-belongs-to-many" do
+      subject { described_class.new(habtm_association) }
+
+      its(:has_and_belongs_to_many?) { should == true }
+    end
+
+    context "when the association is not a has-and-belongs-to-many" do
+      subject { described_class.new(standard_association) }
+
+      its(:has_and_belongs_to_many?) { should == false }
+    end
+  end
+
+  describe "#has_and_belongs_to_many_attr" do
+    context "when the association is a has-and-belongs-to-many" do
+      subject { described_class.new(habtm_association) }
+
+      its(:has_and_belongs_to_many_attr) { should == 'post_ids' }
+    end
+
+    context "when the association is not a has-and-belongs-to-many" do
+      subject { described_class.new(standard_association) }
+
+      its(:has_and_belongs_to_many_attr) { should == nil }
+    end
+  end
+
+  describe "#foreign_key" do
+    context "when the association is a has-and-belongs-to-many" do
+      subject { described_class.new(habtm_association) }
+
+      its(:foreign_key) { should == 'post_id' }
+    end
+
+    context "when the association is not a has-and-belongs-to-many" do
+      subject { described_class.new(class_named_association) }
+
+      its(:foreign_key) { should == 'poster_id' }
     end
   end
 end

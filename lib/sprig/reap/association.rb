@@ -2,7 +2,7 @@ module Sprig::Reap
   class Association
     attr_reader :association
 
-    delegate :foreign_key, :to => :association
+    delegate :plural_name, :to => :association
 
     def initialize(association)
       @association = association
@@ -37,6 +37,18 @@ module Sprig::Reap
 
     def polymorphic_type
       polymorphic? ? association.foreign_type : nil
+    end
+
+    def has_and_belongs_to_many?
+      association.macro == :has_and_belongs_to_many
+    end
+
+    def has_and_belongs_to_many_attr
+      association.association_foreign_key.pluralize if has_and_belongs_to_many?
+    end
+
+    def foreign_key
+      has_and_belongs_to_many? ? association.association_foreign_key : association.foreign_key
     end
   end
 end
