@@ -5,10 +5,10 @@ describe Sprig::Reap::Model do
     let(:all_models) do
       [
         described_class.new(User),
+        described_class.new(Tag),
         described_class.new(Post),
         described_class.new(Comment),
-        described_class.new(Vote),
-        described_class.new(Tag)
+        described_class.new(Vote)
       ]
     end
 

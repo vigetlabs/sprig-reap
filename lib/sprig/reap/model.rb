@@ -80,7 +80,7 @@ module Sprig::Reap
     def self.tsorted_classes(models)
       models.reduce(TsortableHash.new) do |hash, model|
         hash.merge(model.klass => model.dependencies)
-      end.tsort
+      end.resolve_circular_hatbm_dependencies!.tsort
     end
   end
 end
