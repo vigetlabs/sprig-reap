@@ -32,7 +32,7 @@ module Sprig::Reap
     end
 
     def associations
-      @associations ||= klass.reflect_on_all_associations(:belongs_to).map do |association|
+      @associations ||= klass.reflect_on_all_associations.select(&has_dependencies?).map do |association|
         Association.new(association)
       end
     end
@@ -76,6 +76,12 @@ module Sprig::Reap
     end
 
     private
+
+    def has_dependencies?
+      proc do |association|
+        %i(belongs_to has_and_belongs_to_many).include? association.macro
+      end
+    end
 
     def self.tsorted_classes(models)
       models.reduce(TsortableHash.new) do |hash, model|

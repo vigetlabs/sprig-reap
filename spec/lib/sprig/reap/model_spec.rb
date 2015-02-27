@@ -73,20 +73,20 @@ describe Sprig::Reap::Model do
       its(:dependencies) { should == [Post] }
     end
 
-    context "when the model has a dependency with an explicit :class_name" do
+    context "when the model has a HABTM dependency or a dependency with an explicit :class_name" do
       subject { described_class.new(Post) }
 
-      its(:dependencies) { should == [User] }
+      its(:dependencies) { should == [User, Tag] }
     end
   end
 
   describe "#associations" do
-    let(:association) { double('Association') }
+    let(:association) { double('Association', macro: :belongs_to) }
 
     subject { described_class.new(Post) }
 
     before do
-      Post.stub(:reflect_on_all_associations).with(:belongs_to).and_return([association])
+      Post.stub(:reflect_on_all_associations).and_return([association])
     end
 
     it "creates an Association object for each belongs to association the model has" do
