@@ -8,14 +8,14 @@ module Sprig::Reap
       fetch(node).each(&block)
     end
 
-    def resolve_circular_hatbm_dependencies!
+    def resolve_circular_habtm_dependencies!
       # When two models each have a `has_and_belongs_to_many` association pointing to the other,
       # it creates a circular dependency.  Based on Sprig documentation, we only need to define
       # the association in one direction
       # (https://github.com/vigetlabs/sprig#has-and-belongs-to-many), so we delete one of them.
 
       self.each do |(model, dependencies)|
-        model.reflect_on_all_associations(:has_and_belongs_to_many).map do |association|
+        model.reflect_on_all_associations(:has_and_belongs_to_many).each do |association|
           if dependencies.include? association.klass
             self[association.klass] = self[association.klass] - [model]
           end

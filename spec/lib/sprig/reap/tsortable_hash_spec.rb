@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Sprig::Reap::TsortableHash do
-  describe "#resolve_circular_hatbm_dependencies!" do
+  describe "#resolve_circular_habtm_dependencies!" do
     subject do
       described_class.new.merge(
         Comment => [Post],
@@ -13,7 +13,7 @@ describe Sprig::Reap::TsortableHash do
     end
 
     it "trims out circular dependencies resulting from has-and-belongs-to-many" do
-      subject.resolve_circular_hatbm_dependencies!
+      subject.resolve_circular_habtm_dependencies!
       
       subject.should == {
         Comment => [Post],
