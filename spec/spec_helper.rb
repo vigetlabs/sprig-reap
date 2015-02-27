@@ -55,4 +55,7 @@ Vote.connection.execute "DROP TABLE IF EXISTS votes;"
 Vote.connection.execute "CREATE TABLE votes (id INTEGER PRIMARY KEY, votable_id INTEGER, votable_type VARCHAR(255));"
 
 Tag.connection.execute "DROP TABLE IF EXISTS tags;"
-Tag.connection.execute "CREATE TABLE tags (id INTEGER PRIMARY KEY, vote_id INTEGER, tag_id INTEGER);"
+Tag.connection.execute "CREATE TABLE tags (id INTEGER PRIMARY KEY, name VARCHAR(255));"
+
+Tag.connection.execute "DROP TABLE IF EXISTS posts_tags;"
+Tag.connection.execute "CREATE TABLE posts_tags (id INTEGER PRIMARY KEY, post_id INTEGER, tag_id INTEGER);"
