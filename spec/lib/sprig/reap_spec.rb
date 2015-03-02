@@ -25,8 +25,8 @@ describe Sprig::Reap do
       subject.reap
     end
 
-    it "generates a seed file for each class" do
-      count = Sprig::Reap.classes.count
+    it "generates a seed file for each model" do
+      count = Sprig::Reap.models.count
 
       seed_file.should_receive(:write).exactly(count).times
 
@@ -49,18 +49,31 @@ describe Sprig::Reap do
       end
     end
 
-    context "when passed a set of classes in the options hash" do
-      context "in :classes" do
-        it "sets the classes" do
+    context "when passed a set of models in the options hash" do
+      context "in :models" do
+        it "sets the models" do
           subject.reap(:models => [User, Post])
-          subject.classes.should == [User, Post]
+
+          subject.models.all? { |model| model.class == Sprig::Reap::Inputs::Model }.should == true
+          subject.models.map(&:klass).should == [User, Post]
         end
       end
 
-      context "sets the classes" do
-        it "passes the value to its configuration" do
+      context "in 'MODELS'" do
+        it "sets the models" do
           subject.reap('MODELS' => 'User, Post')
-          subject.classes.should == [User, Post]
+
+          subject.models.all? { |model| model.class == Sprig::Reap::Inputs::Model }.should == true
+          subject.models.map(&:klass).should == [User, Post]
+        end
+      end
+
+      context "as an ActiveRecord::Relation" do
+        it "sets the relation to one of the models" do
+          subject.reap(:models => [Post.published.with_content])
+
+          subject.models.all? { |model| model.class == Sprig::Reap::Inputs::Model }.should == true
+          subject.models.map(&:klass).should == [Post]
         end
       end
     end

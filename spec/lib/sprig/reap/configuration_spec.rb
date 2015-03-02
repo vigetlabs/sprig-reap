@@ -8,140 +8,56 @@ describe Sprig::Reap::Configuration do
   end
 
   describe "#target_env" do
-    context "from a fresh configuration" do
-      its(:target_env) { should == Rails.env }
+    context "given a fresh configuration" do
+      it "grabs the default" do
+        Sprig::Reap::Inputs::Environment.should_receive(:default)
+
+        subject.target_env
+      end
     end
   end
 
   describe "#target_env=" do
-    context "when given nil" do
-      it "does not change the target_env" do
-        subject.target_env = nil
+    it "parses the input" do
+      Sprig::Reap::Inputs::Environment.should_receive(:parse).with(:shaboosh)
 
-        subject.target_env.should_not == nil
-      end
+      subject.target_env = :shaboosh
     end
+  end
 
-    context "given a non-nil string value" do
-      let(:input) { ' ShaBOOSH' }
+  describe "#models" do
+    context "given a fresh configuration" do
+      it "grabs the default" do
+        Sprig::Reap::Inputs::Model.should_receive(:default)
 
-      it "formats the given value and then sets the target environment" do
-        subject.target_env = input
-
-        subject.target_env.should == 'shaboosh'
-      end
-
-      context "and the corresponding seeds folder does not yet exist" do
-        after do
-          FileUtils.remove_dir('./spec/fixtures/db/seeds/shaboosh')
-        end
-
-        it "creates the seeds folder" do
-          subject.target_env = input
-
-          File.directory?('./spec/fixtures/db/seeds/shaboosh').should == true
-        end
-      end
-    end
-
-    context "given a non-nil symbol value" do
-      let(:input) { :shaboosh }
-
-      it "formats the given value and then sets the target environment" do
-        subject.target_env = input
-
-        subject.target_env.should == 'shaboosh'
-      end
-
-      context "and the corresponding seeds folder does not yet exist" do
-        after do
-          FileUtils.remove_dir('./spec/fixtures/db/seeds/shaboosh')
-        end
-
-        it "creates the seeds folder" do
-          subject.target_env = input
-
-          File.directory?('./spec/fixtures/db/seeds/shaboosh').should == true
-        end
+        subject.models
       end
     end
   end
 
-  describe "#classes" do
-    context "from a fresh configuration" do
-      its(:classes) { should == ActiveRecord::Base.subclasses }
-    end
-  end
+  describe "#models=" do
+    it "parses the input" do
+      Sprig::Reap::Inputs::Model.should_receive(:parse).with(Post)
 
-  describe "#classes=" do
-    context "when given nil" do
-      it "does not set classes to nil" do
-        subject.classes = nil
-
-        subject.classes.should_not == nil
-      end
-    end
-
-    context "when given an array of classes" do
-      context "where one or more classes are not subclasses of ActiveRecord::Base" do
-        it "raises an error" do
-          expect {
-            subject.classes = [Comment, Sprig::Reap::Model]
-          }.to raise_error ArgumentError, 'Cannot create a seed file for Sprig::Reap::Model because it is not a subclass of ActiveRecord::Base.'
-        end
-      end
-
-      context "where all classes are subclasses of ActiveRecord::Base" do
-        it "sets classes to the given input" do
-          subject.classes = [Comment, Post]
-
-          subject.classes.should == [Comment, Post]
-        end
-      end
-    end
-
-    context "when given a string" do
-      context "where one or more classes are not subclasses of ActiveRecord::Base" do
-        it "raises an error" do
-          expect {
-            subject.classes = 'Sprig::Reap::Model'
-          }.to raise_error ArgumentError, 'Cannot create a seed file for Sprig::Reap::Model because it is not a subclass of ActiveRecord::Base.'
-        end
-      end
-
-      context "where all classes are subclasses of ActiveRecord::Base" do
-        it "sets classes to the parsed input" do
-          subject.classes = ' comment, post'
-
-          subject.classes.should == [Comment, Post]
-        end
-      end
+      subject.models = Post
     end
   end
 
   describe "#ignored_attrs" do
-    context "from a fresh configuration" do
-      its(:ignored_attrs) { should == [] }
+    context "given a fresh configuration" do
+      it "grabs the default" do
+        Sprig::Reap::Inputs::IgnoredAttrs.should_receive(:default)
+
+        subject.ignored_attrs
+      end
     end
   end
 
   describe "#ignored_attrs=" do
-    context "when given nil" do
-      before { subject.ignored_attrs = nil }
+    it "parses the input" do
+      Sprig::Reap::Inputs::IgnoredAttrs.should_receive(:parse).with('boom, shaka, laka')
 
-      its(:ignored_attrs) { should == [] }
-    end
-
-    context "when given an array of ignored_attrs" do
-      before { subject.ignored_attrs = [:shaka, ' laka '] }
-
-      its(:ignored_attrs) { should == ['shaka', 'laka'] }
-    end
-
-    context "when given a string" do
-      before { subject.ignored_attrs = ' shaka, laka' }
-
-      its(:ignored_attrs) { should == ['shaka', 'laka'] }
+      subject.ignored_attrs = 'boom, shaka, laka'
     end
   end
 
