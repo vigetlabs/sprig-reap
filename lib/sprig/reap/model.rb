@@ -1,10 +1,11 @@
 module Sprig::Reap
   class Model
     include Logging
+    include Inputs
 
     def self.all
       @@all ||= begin
-        models = Sprig::Reap.classes.map { |klass| new(klass) }
+        models = Sprig::Reap.models.map { |model_input| new(model_input) }
 
         tsorted_classes(models).map do |klass|
           models.find { |model| model.klass == klass }
@@ -16,11 +17,12 @@ module Sprig::Reap
       all.find { |model| model.klass == klass }.find(id)
     end
 
-    attr_reader :klass
+    attr_reader :model_input, :klass
     attr_writer :existing_sprig_ids
 
-    def initialize(klass)
-      @klass = klass
+    def initialize(model_input)
+      @model_input = Sprig::Reap::Inputs.Model(model_input)
+      @klass       = @model_input.klass
     end
 
     def attributes
@@ -69,7 +71,7 @@ module Sprig::Reap
     end
 
     def records
-      @records ||= klass.all.map { |record| Record.new(record, self) }
+      @records ||= model_input.records.map { |record| Record.new(record, self) }
     rescue => e
       log_error "Encountered an error when pulling the database records for #{to_s}:\r#{e.message}"
       []
