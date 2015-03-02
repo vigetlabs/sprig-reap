@@ -32,7 +32,11 @@ module Sprig::Reap::Inputs
     end
 
     def klass
-      @klass ||= input.is_a?(ActiveRecord::Relation) ? input.klass : input
+      @klass ||= relation? ? input.klass : input
+    end
+
+    def records
+      relation? ? input : input.all
     end
 
     private
@@ -49,6 +53,10 @@ module Sprig::Reap::Inputs
       if valid_classes.exclude? klass
         raise ArgumentError, "Cannot create a seed file for #{klass} because it is not a subclass of ActiveRecord::Base."
       end
+    end
+
+    def relation?
+      input.is_a? ActiveRecord::Relation
     end
   end
 end

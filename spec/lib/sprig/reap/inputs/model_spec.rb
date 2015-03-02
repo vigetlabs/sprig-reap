@@ -106,4 +106,24 @@ describe Sprig::Reap::Inputs::Model do
       its(:klass) { should == Post }
     end
   end
+
+  describe "#records" do
+    let!(:bob)  { User.create(:first_name => 'Bob',  :last_name => 'Costas') }
+    let!(:john) { User.create(:first_name => 'John', :last_name => 'Madden') }
+
+    context "when the input is an ActiveRecord::Base class" do
+      subject { described_class.new(User) }
+
+      its(:records) { should == [bob, john]}
+    end
+
+    context "when the input is an ActiveRecord::Relation" do
+      let!(:unpublished) { Post.create(:published => false, :poster => bob) }
+      let!(:published)   { Post.create(:published => true,  :poster => john) }
+
+      subject { described_class.new(Post.published) }
+
+      its(:records) { should == [published] }
+    end
+  end
 end
