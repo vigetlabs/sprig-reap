@@ -3,6 +3,7 @@ require "sprig/reap/railtie"
 
 module Sprig::Reap
   autoload :TsortableHash, 'sprig/reap/tsortable_hash'
+  autoload :Inputs,        'sprig/reap/inputs'
   autoload :Configuration, 'sprig/reap/configuration'
   autoload :Model,         'sprig/reap/model'
   autoload :Association,   'sprig/reap/association'
