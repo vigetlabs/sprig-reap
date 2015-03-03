@@ -66,7 +66,7 @@ describe Sprig::Reap::Model do
     context "when the model is polymorphic" do
       subject { described_class.new(Vote) }
 
-      its(:dependencies) { should == [Post] }
+      its(:dependencies) { should =~ [Post, Comment] }
     end
 
     context "when the model has a HABTM dependency or a dependency with an explicit :class_name" do

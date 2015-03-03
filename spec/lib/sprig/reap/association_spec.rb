@@ -55,7 +55,7 @@ describe Sprig::Reap::Association do
     context "when the association is polymorphic" do
       subject { described_class.new(polymorphic_association) }
 
-      its(:polymorphic_dependencies) { should == [Post] }
+      its(:polymorphic_dependencies) { should =~ [Post, Comment] }
     end
   end
 
@@ -81,7 +81,7 @@ describe Sprig::Reap::Association do
     context "when the association is polymorphic" do
       subject { described_class.new(polymorphic_association) }
 
-      its(:dependencies) { should == [Post] }
+      its(:dependencies) { should =~ [Post, Comment] }
     end
 
     context "when the association is not polymorphic" do
