@@ -49,13 +49,14 @@ Sprig.reap(target_env: 'integration')
 
 #### Model List
 If you only want to `reap` a subset of your models, you may provide a list of models
-(`ActiveRecord::Base.subclasses`-only) you want seed files for:
+(`ActiveRecord::Base.subclasses`-only) or `ActiveRecord::Relations` (for pulling records based on
+scope):
 ```
 # Rake Task
-rake db:seed:reap MODELS=User,Post
+rake db:seed:reap MODELS=User,Post.published
 
 # Rails Console
-Sprig.reap(models: [User, Post])
+Sprig.reap(models: [User, Post.published])
 ```
 
 #### Ignored Attributes
@@ -84,10 +85,10 @@ Sprig.reap(omit_empty_attrs: true)
 You're free to take or leave as many options as you'd like:
 ```
 # Rake Task
-rake db:seed:reap TARGET_ENV=integration MODELS=User,Post IGNORED_ATTRS=created_at,updated_at OMIT_EMPTY_ATTRS=true
+rake db:seed:reap TARGET_ENV=integration MODELS=User,Post.published IGNORED_ATTRS=created_at,updated_at OMIT_EMPTY_ATTRS=true
 
 # Rails Console
-Sprig.reap(target_env: 'integration', models: [User, Post], ignored_attrs: [:created_at, :updated_at], omit_empty_attrs: true)
+Sprig.reap(target_env: 'integration', models: [User, Post.published], ignored_attrs: [:created_at, :updated_at], omit_empty_attrs: true)
 ```
 
 ### Adding to Existing Seed Files (`.yaml` only)
