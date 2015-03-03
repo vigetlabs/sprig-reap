@@ -12,6 +12,16 @@ describe Sprig::Reap::Model do
       ]
     end
 
+    before do
+      Sprig::Reap.stub(:models).and_return([
+        Sprig::Reap::Inputs::Model.new(Comment),
+        Sprig::Reap::Inputs::Model.new(Post),
+        Sprig::Reap::Inputs::Model.new(User),
+        Sprig::Reap::Inputs::Model.new(Vote),
+        Sprig::Reap::Inputs::Model.new(Tag)
+      ])
+    end
+
     it "returns an dependency-sorted array of Sprig::Reap::Models" do
       described_class.all.all? { |model| model.is_a? Sprig::Reap::Model }.should == true
       described_class.all.map(&:klass).should == all_models.map(&:klass)
