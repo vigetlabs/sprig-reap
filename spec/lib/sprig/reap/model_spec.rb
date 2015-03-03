@@ -156,13 +156,13 @@ describe Sprig::Reap::Model do
 
     context "when passed a value for the namespace" do
       it "returns the correct yaml" do
-        subject.to_yaml(:namespace => 'records').should == yaml_from_file('records_with_namespace.yml')
+        YAML.load(subject.to_yaml(:namespace => 'records')).should == YAML.load(yaml_from_file('records_with_namespace.yml'))
       end
     end
 
     context "when no namespace is given" do
       it "returns the correct yaml" do
-        subject.to_yaml.should == yaml_from_file('records_without_namespace.yml')
+        YAML.load(subject.to_yaml).should == YAML.load(yaml_from_file('records_without_namespace.yml'))
       end
     end
 
@@ -172,7 +172,7 @@ describe Sprig::Reap::Model do
 
         subject = described_class.new(Vote)
 
-        subject.to_yaml.should == yaml_from_file('polymorphic_vote_record.yml')
+        YAML.load(subject.to_yaml).should == YAML.load(yaml_from_file('polymorphic_vote_record.yml'))
       end
     end
 
@@ -214,6 +214,6 @@ describe Sprig::Reap::Model do
   end
 
   def yaml_from_file(basename)
-    YAML.load(File.read('spec/fixtures/yaml/' + basename)).to_yaml.gsub("---\n", '')
+    File.read('spec/fixtures/yaml/' + basename).gsub("\"", '')
   end
 end

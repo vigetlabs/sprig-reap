@@ -59,7 +59,7 @@ module Sprig::Reap
       return if records.empty?
 
       namespace         = options[:namespace]
-      formatted_records = records.map(&:to_hash)
+      formatted_records = [records.map(&:to_hash)]
 
       yaml = if namespace
         { namespace => formatted_records }.to_yaml
@@ -67,7 +67,8 @@ module Sprig::Reap
         formatted_records.to_yaml
       end
 
-      yaml.gsub("---\n", '') # Remove annoying YAML separator
+      yaml.gsub!('- -', '  -') # Remove the extra array marker used to indent the sprig records
+      yaml.gsub!("---\n", '')  # Remove annoying YAML separator
     end
 
     def records
