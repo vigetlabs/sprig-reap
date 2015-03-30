@@ -16,9 +16,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = Dir["spec/**/*"]
 
   spec.add_development_dependency "rails",            "~> 3.1"
-  spec.add_development_dependency "sqlite3",          "~> 1.3.8"
-  spec.add_development_dependency "rspec",            "~> 2.14.0"
-  spec.add_development_dependency "database_cleaner", "~> 1.2.0"
+  spec.add_development_dependency "sqlite3",          "~> 1.3.8",  ">= 1.3.8"
+  spec.add_development_dependency "rspec",            "~> 2.14.0", ">= 2.14.0"
+  spec.add_development_dependency "database_cleaner", "~> 1.2.0",  ">= 1.2.0"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "generator_spec"
   spec.add_development_dependency "carrierwave",      "~> 0.10.0"
