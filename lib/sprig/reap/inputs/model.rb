@@ -14,6 +14,8 @@ module Sprig::Reap::Inputs
     end
 
     def self.parse(input)
+      return if input.nil?
+
       collection = if input.is_a? String
         input.split(',').map { |string| string.strip }
       elsif input.is_a? ActiveRecord::Relation

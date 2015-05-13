@@ -59,3 +59,6 @@ Tag.connection.execute "CREATE TABLE tags (id INTEGER PRIMARY KEY, name VARCHAR(
 
 Tag.connection.execute "DROP TABLE IF EXISTS posts_tags;"
 Tag.connection.execute "CREATE TABLE posts_tags (id INTEGER PRIMARY KEY, post_id INTEGER, tag_id INTEGER);"
+
+Blog::Activity.connection.execute "DROP TABLE IF EXISTS blog_activities;"
+Blog::Activity.connection.execute "CREATE TABLE blog_activities (id INTEGER PRIMARY KEY, context_id INTEGER, context_type VARCHAR(255), created_at TIMESTAMP, activity_type VARCHAR(255));"

@@ -2,29 +2,16 @@ require 'spec_helper'
 
 describe Sprig::Reap::Model do
   describe ".all" do
-    let(:all_models) do
-      [
-        described_class.new(User),
-        described_class.new(Tag),
-        described_class.new(Post),
-        described_class.new(Comment),
-        described_class.new(Vote)
-      ]
-    end
-
-    before do
-      Sprig::Reap.stub(:models).and_return([
-        Sprig::Reap::Inputs::Model.new(Comment),
-        Sprig::Reap::Inputs::Model.new(Post),
-        Sprig::Reap::Inputs::Model.new(User),
-        Sprig::Reap::Inputs::Model.new(Vote),
-        Sprig::Reap::Inputs::Model.new(Tag)
-      ])
-    end
-
     it "returns an dependency-sorted array of Sprig::Reap::Models" do
       described_class.all.all? { |model| model.is_a? Sprig::Reap::Model }.should == true
-      described_class.all.map(&:klass).should == all_models.map(&:klass)
+      described_class.all.map(&:klass).should == [
+        Blog::Activity,
+        User,
+        Tag,
+        Post,
+        Comment,
+        Vote
+      ]
     end
   end
 

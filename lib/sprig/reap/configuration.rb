@@ -10,11 +10,11 @@ module Sprig::Reap
     end
 
     def models
-      @classes ||= Sprig::Reap::Inputs::Model.default
+      @models ||= Sprig::Reap::Inputs::Model.default
     end
 
     def models=(input)
-      @classes ||= Sprig::Reap::Inputs::Model.parse(input)
+      @models ||= Sprig::Reap::Inputs::Model.parse(input)
     end
 
     def ignored_attrs

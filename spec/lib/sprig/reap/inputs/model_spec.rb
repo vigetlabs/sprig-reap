@@ -45,6 +45,12 @@ describe Sprig::Reap::Inputs::Model do
         described_class.parse(Post.published)
       end
     end
+
+    context "given nil" do
+      it "returns nil" do
+        described_class.parse(nil).should == nil
+      end
+    end
   end
 
   describe "#initialize" do
