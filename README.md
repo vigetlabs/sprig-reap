@@ -1,6 +1,6 @@
 # Sprig::Reap
 
-[![Code Climate](https://codeclimate.com/github/vigetlabs/sprig-reap.png)](https://codeclimate.com/github/vigetlabs/sprig-reap) [![Build Status](https://travis-ci.org/vigetlabs/sprig-reap.png?branch=master)](https://travis-ci.org/vigetlabs/sprig-reap) [![Gem Version](https://badge.fury.io/rb/sprig-reap.png)](http://badge.fury.io/rb/sprig-reap)
+[![Gem Version](https://badge.fury.io/rb/sprig-reap.png)](http://badge.fury.io/rb/sprig-reap) [![Code Climate](https://codeclimate.com/github/vigetlabs/sprig-reap.png)](https://codeclimate.com/github/vigetlabs/sprig-reap) [![Circle CI](https://circleci.com/gh/vigetlabs/sprig-reap.svg?style=svg)](https://circleci.com/gh/vigetlabs/sprig-reap)
 
 Don't want to write Sprig seed files from scratch?  No problem!  Sprig::Reap can create them for
 you.  Sprig::Reap enables automatic capture and output of your application's data state to
