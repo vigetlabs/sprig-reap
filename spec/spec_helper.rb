@@ -40,7 +40,7 @@ RSpec.configure do |config|
 end
 
 # Database
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => "spec/db/activerecord.db")
+ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 
 User.connection.execute "DROP TABLE IF EXISTS users;"
 User.connection.execute "CREATE TABLE users (id INTEGER PRIMARY KEY , first_name VARCHAR(255), last_name VARCHAR(255), type VARCHAR(255), avatar VARCHAR(225));"
