@@ -138,7 +138,7 @@ describe Sprig::Reap::SeedFile do
       end
 
       it "logs an error for the given model" do
-        log_should_receive :error, :with => "There was an issue writing to the file for Comment:\rOh snap"
+        log_should_receive :error, :with => "There was an issue writing to the file for Comment:\nOh snap"
 
         subject.write
       end
