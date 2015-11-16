@@ -46,7 +46,7 @@ module Sprig::Reap
       end
 
     rescue => e
-      log_error "There was an issue writing to the file for #{model}:\r#{e.message}"
+      log_error "There was an issue writing to the file for #{model}:\n#{e.message}"
     end
 
     def existing_sprig_ids(yaml)

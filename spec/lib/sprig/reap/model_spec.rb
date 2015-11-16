@@ -189,7 +189,7 @@ describe Sprig::Reap::Model do
       end
 
       it "logs an error message" do
-        log_should_receive :error, :with => "Encountered an error when pulling the database records for Post:\rOh snap"
+        log_should_receive :error, :with => "Encountered an error when pulling the database records for Post:\nOh snap"
 
         subject.records
       end
